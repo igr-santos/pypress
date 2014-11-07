@@ -39,6 +39,7 @@ INSTALLED_APPS = (
 
     'taggit',
     'django_nose',
+    'epiceditor',
     'core',
 )
 

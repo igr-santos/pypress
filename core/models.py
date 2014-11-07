@@ -1,23 +1,11 @@
 from django.db import models, OperationalError
 from django.utils import timezone
 from taggit.managers import TaggableManager
-from taggit.models import TagBase, GenericTaggedItemBase
-
-
-class TagEntry(TagBase):
-
-    class Meta:
-        verbose_name = 'Tag Entry'
-        verbose_name_plural = 'Tags Entry'
-
-
-class TaggedWhatever(GenericTaggedItemBase):
-    tag = models.ForeignKey(TagEntry,
-                            related_name="%(app_label)s_%(class)s_tags")
+from .tags import TaggedWhatever
 
 
 class Entry(models.Model):
-    author = models.ForeignKey('auth.User')
+    author = models.ForeignKey('auth.User', editable=False)
     title = models.CharField(max_length=150)
     slug = models.CharField(max_length=165)
     body = models.TextField()
