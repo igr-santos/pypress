@@ -5,7 +5,7 @@ from .forms import EntryForm
 
 class EntryAdmin(admin.ModelAdmin):
     form = EntryForm
-    list_display = ('title', 'author', 'created_at', 'published_at', 'draft')
+    list_display = ('title', 'author', 'created_at', 'published_at', 'status')
 
     def save_model(self, request, entry, form, change):
         entry.author = request.user
