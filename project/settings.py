@@ -90,6 +90,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+ENTRIES_REPO_FOLDER = os.path.join(
+    os.path.dirname(BASE_DIR), 'pypress_entries')
 
 # Django-nose coverage test runner
 
