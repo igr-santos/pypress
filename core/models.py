@@ -1,12 +1,9 @@
-import os
-from django.conf import settings
 from django.db import models, OperationalError
 from django.core.urlresolvers import reverse
 from django.utils import timezone
-from django.utils.text import slugify
 from taggit.managers import TaggableManager
 from .tags import TaggedWhatever
-from git_wrapper import GitWrapper
+
 
 ENTRY_DRAFT = 'D'
 ENTRY_PUBLISHED = 'P'
@@ -62,8 +59,3 @@ class Entry(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog:list-entry')
-
-    def save(self):
-        gw = GitWrapper()
-        gw.commit(self)
-        return super(Entry, self).save()

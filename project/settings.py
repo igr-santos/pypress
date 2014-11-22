@@ -44,6 +44,10 @@ INSTALLED_APPS = (
     'django_nose',
     'django_comments',
     'epiceditor',
+    'django_gravatar',
+    'bootstrap3',
+
+    'adm',
     'core',
 )
 
@@ -102,3 +106,5 @@ NOSE_ARGS = [
     '--cover-package=core',
     '--verbosity=2',
 ]
+
+LOGIN_URL = '/z/login/'

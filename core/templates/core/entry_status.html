@@ -1,0 +1,10 @@
+{% if entry.status == 'D' %}
+    <small class="badge bg-red">
+{% elif entry.status == 'P' %}
+    <small class="badge bg-yellow">
+{% elif entry.status == 'A' %}
+    <small class="badge bg-green">
+{% endif %}
+
+{{entry.get_status_display}}
+</small>

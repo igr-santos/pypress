@@ -6,19 +6,24 @@ from git import Repo
 
 
 class GitWrapper(object):
+    """
+
+    """
     repo_path = settings.ENTRIES_REPO_FOLDER
-    master_branch = 'master'
     entries_branch = 'entries'
     workflow = [
-        'core.git_wrapper.SetGitConfig',
         'core.git_wrapper.WriteToFile',
         'core.git_wrapper.AddFileToStage',
+        'core.git_wrapper.SetGitConfig',
         'core.git_wrapper.CommitFile'
     ]
 
     def __init__(self):
-        self.repo = Repo(self.repo_path)
+        self.repo = Repo(self.get_repo_path())
         self.entries = self.repo.heads[self.entries_branch]
+
+    def get_repo_path(self):
+        return self.repo_path
 
     def commit(self, obj):
         self.pre_commit()
@@ -83,14 +88,14 @@ class AddFileToStage(object):
 
         files = repo.git.status('-z')
         if not files:
-            return {}
+            return False
 
         files = files.split('\x00')
         file_to_commit, untracked = cls.parse_files(files, filename)
         if file_to_commit:
             index.add([file_to_commit])
             return {'untracked': untracked, 'filename': filename}
-        return None
+        return False
 
     @classmethod
     def get_filename(cls, res):
