@@ -1,4 +1,15 @@
 <ul class="sidebar-menu">
+    <li class="treeview" data-url-pat="/user.+|/users.+">
+        <a href="#">
+            <i class="fa fa-users"></i>
+            <span>Users</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="{% url 'adm:user-list' %}"><i class="fa fa-angle-double-right"></i>List</a></li>
+            <li><a href="{% url 'adm:user-new' %}"><i class="fa fa-angle-double-right"></i>New</a></li>
+        </ul>
+    </li>
     <li class="treeview" data-url-pat="/entry.+|/entries.+">
         <a href="#">
             <i class="fa fa-bar-chart-o"></i>
@@ -8,20 +19,6 @@
         <ul class="treeview-menu">
             <li><a href="{% url 'adm:entry-list' %}"><i class="fa fa-angle-double-right"></i>List</a></li>
             <li><a href="{% url 'adm:entry-new' %}"><i class="fa fa-angle-double-right"></i>New</a></li>
-        </ul>
-    </li>
-    <li class="treeview">
-        <a href="#">
-            <i class="fa fa-laptop"></i>
-            <span>UI Elements</span>
-            <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-            <li><a href="pages/UI/general.html"><i class="fa fa-angle-double-right"></i> General</a></li>
-            <li><a href="pages/UI/icons.html"><i class="fa fa-angle-double-right"></i> Icons</a></li>
-            <li><a href="pages/UI/buttons.html"><i class="fa fa-angle-double-right"></i> Buttons</a></li>
-            <li><a href="pages/UI/sliders.html"><i class="fa fa-angle-double-right"></i> Sliders</a></li>
-            <li><a href="pages/UI/timeline.html"><i class="fa fa-angle-double-right"></i> Timeline</a></li>
         </ul>
     </li>
     <li class="treeview">

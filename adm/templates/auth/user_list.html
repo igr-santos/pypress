@@ -1,0 +1,55 @@
+{% extends 'adm/site_base.html' %}
+{% load bootstrap3 %}
+
+{% block content-title %}Users{% endblock %}
+{% block content-subtitle %}List{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-hover dataTable">
+                <tr>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Active</th>
+                </tr>
+                {% for u in user_list %}
+                <tr>
+                    <td>
+                        <a href="{% url 'adm:user-edit' pk=u.pk %}">
+                            {{u.username}}
+                        </a>
+                    </td>
+                    <td>{{u.first_name}}</td>
+                    <td>{{u.last_name}}</td>
+                    <td>{{u.email}}</td>
+                    <td>{{u.is_active}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-6">
+            <div class="pagination-content pull-right">
+                {% bootstrap_pagination page_obj %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra-scripts %}
+<script>
+$(document).ready(function() {
+
+    function get_links_div(obj) {
+        return $(obj).children('td:eq(0)').children('div.links')
+    }
+    $('tr:gt(0)').hover(
+        function() { get_links_div(this).show()},
+        function() { get_links_div(this).hide()})
+})
+</script>
+{% endblock %}
