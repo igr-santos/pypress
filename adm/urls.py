@@ -1,7 +1,8 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.views import login, logout
 from django.contrib.auth.decorators import login_required
-from core.views import (EntryCreateView, EntryEditView, EntryListView)
+from core.views import (EntryCreateView, EntryEditView, EntryListView,
+                        PageCreateView, PageEditView, PageListView)
 from myu.views import (UserCreateView, UserEditView, UserListView)
 from .views import Index
 
@@ -28,6 +29,14 @@ urlpatterns = patterns(
         name='entry-new'),
     url(r'^entry/(?P<pk>[\w-]+)/$', login_required(EntryEditView.as_view()),
         name='entry-edit'),
+
+    #pages
+    url(r'^pages/$', login_required(PageListView.as_view()),
+        name='page-list'),
+    url(r'^page/$', login_required(PageCreateView.as_view()),
+        name='page-new'),
+    url(r'^page/(?P<pk>[\w-]+)/$', login_required(PageEditView.as_view()),
+        name='page-edit'),
 
     url(r'^$', Index.as_view(), name='index'),
 )

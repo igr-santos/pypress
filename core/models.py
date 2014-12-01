@@ -15,13 +15,13 @@ ENTRY_STATUS_CHOICES = (
 )
 
 
-class EntryQueryset(models.QuerySet):
+class ContentQueryset(models.QuerySet):
 
     def published(self):
         return self.filter(status=ENTRY_APPROVED).order_by('-published_at')
 
 
-class Entry(models.Model):
+class Content(models.Model):
     author = models.ForeignKey('auth.User', editable=False)
     title = models.CharField(max_length=150)
     slug = models.CharField(max_length=165, unique=True)
@@ -33,11 +33,10 @@ class Entry(models.Model):
     status = models.CharField(max_length=1, default=ENTRY_DRAFT,
                               choices=ENTRY_STATUS_CHOICES, editable=False)
 
-    objects = EntryQueryset.as_manager()
+    objects = ContentQueryset.as_manager()
 
     class Meta:
-        verbose_name_plural = 'Entries'
-        ordering = ['-created_at', '-published_at']
+        abstract = True
 
     def __unicode__(self):
         return self.title
@@ -48,14 +47,26 @@ class Entry(models.Model):
             self.published_at = timezone.now()
             self.save()
             return self
-        raise OperationalError('Entry published, not possible publish now.')
+        raise OperationalError('Sorry, the entry could not be published')
 
     def accept(self):
         if self.published_at and self.status == ENTRY_PUBLISHED:
             self.status = ENTRY_APPROVED
             self.save()
             return self
-        raise OperationalError('Entry can\'t accept, entry not published.')
+        raise OperationalError('Im sorry, for some reason the entry'
+                               'could not be approved.')
+
+
+class Entry(Content):
+
+    class Meta:
+        verbose_name_plural = 'Entries'
+        ordering = ['-created_at', '-published_at']
 
     def get_absolute_url(self):
         return reverse('blog:list-entry')
+
+
+class Page(Content):
+    pass
