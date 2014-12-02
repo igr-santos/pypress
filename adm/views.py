@@ -1,3 +1,4 @@
+import json
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.utils.decorators import method_decorator
@@ -91,8 +92,8 @@ class ConfigMixin(LoginRequiredMixin):
             except Config.DoesNotExist:
                 c = None
 
-            if c and c.value:
-                data[k] = c.value
+            if c is not None:
+                data[k] = c.clean_value
         return data
 
     def form_valid(self, form):
@@ -103,14 +104,20 @@ class ConfigMixin(LoginRequiredMixin):
                 c = Config()
                 c.name = k
 
+            extra = self.get_extra(form, form.fields[k])
+            c.extra = json.dumps(extra)
             c.value = form.cleaned_data[k]
             c.save()
         return super(ConfigMixin, self).form_valid(form)
+
+    def get_extra(self, form, field):
+        data = {
+            'klass': field.__class__.__name__
+        }
+        return data
 
 
 class GeneralConfigView(ConfigMixin, FormView):
     form_class = GeneralConfig
     template_name = 'adm/config_general.html'
     success_url = reverse_lazy('adm:config-general')
-
-
