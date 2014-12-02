@@ -1,6 +1,7 @@
 from django.db import models, OperationalError
 from django.core.urlresolvers import reverse
 from django.utils import timezone
+from django.utils.text import slugify
 from taggit.managers import TaggableManager
 from .tags import TaggedWhatever
 
@@ -21,10 +22,24 @@ class ContentQueryset(models.QuerySet):
         return self.filter(status=ENTRY_APPROVED).order_by('-published_at')
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=150, unique=True)
+    parent_id = models.ForeignKey('self', null=True, blank=True)
+
+    def __unicode__(self):
+        return self.name
+
+    def save(self):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        return super(Category, self).save()
+
+
 class Content(models.Model):
     author = models.ForeignKey('auth.User', editable=False)
     title = models.CharField(max_length=150)
-    slug = models.CharField(max_length=165, unique=True)
+    slug = models.SlugField(max_length=165, unique=True)
     body = models.TextField()
     tags = TaggableManager(through=TaggedWhatever)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
@@ -59,6 +74,7 @@ class Content(models.Model):
 
 
 class Entry(Content):
+    category = models.ManyToManyField(Category)
 
     class Meta:
         verbose_name_plural = 'Entries'

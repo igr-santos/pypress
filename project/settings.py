@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'epiceditor',
     'django_gravatar',
     'bootstrap3',
+    'timezone_field',
 
     'adm',
     'core',
