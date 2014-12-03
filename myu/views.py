@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.contrib.auth.models import User
-from .forms import MyUserCreationForm
+from .forms import MyUserCreationForm, MyUserEditForm
 
 
 class UserListView(ListView):
@@ -25,4 +25,5 @@ class UserCreateView(CreateView):
 
 class UserEditView(UpdateView):
     model = User
+    form_class = MyUserEditForm
     success_url = reverse_lazy('adm:user-list')

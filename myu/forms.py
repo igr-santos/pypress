@@ -1,5 +1,5 @@
-from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 
 class MyUserCreationForm(UserCreationForm):
@@ -7,4 +7,11 @@ class MyUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         fields = ('username', 'email', 'first_name', 'last_name',
-                  'password1', 'password2', 'is_active',)
+                  'password1', 'password2', 'groups', 'is_active',)
+
+
+class MyUserEditForm(UserChangeForm):
+
+    class Meta(UserChangeForm.Meta):
+        fields = ('username', 'email', 'first_name', 'last_name',
+                  'groups', 'is_active', 'password')
