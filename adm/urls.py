@@ -6,7 +6,7 @@ from .views import (Index,
                     CategoryListView, CategoryCreateView, CategoryEditView,
                     EntryCreateView, EntryEditView, EntryListView,
                     PageCreateView, PageEditView, PageListView,
-                    GeneralConfigView)
+                    GeneralConfigView, WriteConfigView)
 
 urlpatterns = patterns(
     '',
@@ -50,6 +50,9 @@ urlpatterns = patterns(
     #configs
     url(r'^config/general$', GeneralConfigView.as_view(),
         name='config-general'),
+    url(r'^config/write$', WriteConfigView.as_view(),
+        name='config-write'),
+
 
     url(r'^$', Index.as_view(), name='index'),
 )

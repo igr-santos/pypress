@@ -2,7 +2,7 @@
 {% load bootstrap3 %}
 
 {% block content-title %}User{% endblock %}
-{% block content-subtitle %}New{% endblock %}
+{% block content-subtitle %}{% if object %}Edit{%else%}New{%endif%}{% endblock %}
 
 {% block content %}
     <form action="" method="post" class="form">

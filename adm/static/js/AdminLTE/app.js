@@ -1054,10 +1054,24 @@ $(window).load(function() {
 })(window.jQuery || window.Zepto);
 
 $(document).ready(function() {
+
+    /* Enables dropdown menu to open automatically when user is
+       inside one of submenus */
     $('li.treeview[data-url-pat]').each(function() {
         var pat = new RegExp($(this).data('url-pat'))
         if(pat.exec(location.href)) {
             $(this).children('a').click()
         }
+    })
+
+    /* enables form helpers in popovers */
+    $('form input[title!=""]').each(function(i,e ) {
+        var $this = $(e)
+        $this.data('content', $this.attr('title'))
+        $this.attr('title', 'Hint')
+        $this.popover({
+            'placement': 'top',
+            'trigger': 'hover'
+        })
     })
 })
