@@ -10,7 +10,7 @@ from django.views.generic.list import ListView
 from core.models import Category, Entry, Page
 
 from .models import Config
-from .forms import GeneralConfig, WriteConfig
+from .forms import GeneralConfig, WriteConfig, ReadConfig
 
 
 class LoginRequiredMixin(object):
@@ -127,3 +127,9 @@ class WriteConfigView(ConfigMixin, FormView):
     form_class = WriteConfig
     template_name = 'adm/config_write.html'
     success_url = reverse_lazy('adm:config-write')
+
+
+class ReadConfigView(ConfigMixin, FormView):
+    form_class = ReadConfig
+    template_name = 'adm/config_read.html'
+    success_url = reverse_lazy('adm:config-read')
