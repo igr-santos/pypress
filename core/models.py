@@ -1,12 +1,10 @@
-import os
-from django.conf import settings
 from django.db import models, OperationalError
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 from taggit.managers import TaggableManager
 from .tags import TaggedWhatever
-from git_wrapper import GitWrapper
+
 
 ENTRY_DRAFT = 'D'
 ENTRY_PUBLISHED = 'P'
@@ -18,16 +16,30 @@ ENTRY_STATUS_CHOICES = (
 )
 
 
-class EntryQueryset(models.QuerySet):
+class ContentQueryset(models.QuerySet):
 
     def published(self):
         return self.filter(status=ENTRY_APPROVED).order_by('-published_at')
 
 
-class Entry(models.Model):
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=150, unique=True)
+    parent_id = models.ForeignKey('self', null=True, blank=True)
+
+    def __unicode__(self):
+        return self.name
+
+    def save(self):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        return super(Category, self).save()
+
+
+class Content(models.Model):
     author = models.ForeignKey('auth.User', editable=False)
     title = models.CharField(max_length=150)
-    slug = models.CharField(max_length=165, unique=True)
+    slug = models.SlugField(max_length=165, unique=True)
     body = models.TextField()
     tags = TaggableManager(through=TaggedWhatever)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
@@ -36,11 +48,10 @@ class Entry(models.Model):
     status = models.CharField(max_length=1, default=ENTRY_DRAFT,
                               choices=ENTRY_STATUS_CHOICES, editable=False)
 
-    objects = EntryQueryset.as_manager()
+    objects = ContentQueryset.as_manager()
 
     class Meta:
-        verbose_name_plural = 'Entries'
-        ordering = ['-created_at', '-published_at']
+        abstract = True
 
     def __unicode__(self):
         return self.title
@@ -51,19 +62,27 @@ class Entry(models.Model):
             self.published_at = timezone.now()
             self.save()
             return self
-        raise OperationalError('Entry published, not possible publish now.')
+        raise OperationalError('Sorry, the entry could not be published')
 
     def accept(self):
         if self.published_at and self.status == ENTRY_PUBLISHED:
             self.status = ENTRY_APPROVED
             self.save()
             return self
-        raise OperationalError('Entry can\'t accept, entry not published.')
+        raise OperationalError('Im sorry, for some reason the entry'
+                               'could not be approved.')
+
+
+class Entry(Content):
+    category = models.ManyToManyField(Category)
+
+    class Meta:
+        verbose_name_plural = 'Entries'
+        ordering = ['-created_at', '-published_at']
 
     def get_absolute_url(self):
         return reverse('blog:list-entry')
 
-    def save(self):
-        gw = GitWrapper()
-        gw.commit(self)
-        return super(Entry, self).save()
+
+class Page(Content):
+    pass

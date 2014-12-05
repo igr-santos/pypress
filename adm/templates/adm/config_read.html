@@ -1,0 +1,17 @@
+{% extends 'adm/_config_base.html' %}
+{% block content-subtitle %}Read{% endblock %}
+
+{% block extra-scripts %}
+<script>
+$(document).ready(function() {
+    var $pages = $('#id_homepage_choices')
+
+    $pages.attr('disabled', true)
+    $('#id_homepage_1').on('ifChecked', function() {
+        $pages.attr('disabled', false)
+    }).on('ifUnchecked', function() {
+        $pages.attr('disabled', true)
+    })
+})
+</script>
+{% endblock %}

@@ -1,0 +1,58 @@
+<ul class="sidebar-menu">
+    <li class="treeview" data-url-pat="/user.+|/users.+">
+        <a href="#">
+            <i class="fa fa-users"></i>
+            <span>Users</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="{% url 'adm:user-list' %}"><i class="fa fa-angle-double-right"></i>List</a></li>
+            <li><a href="{% url 'adm:user-new' %}"><i class="fa fa-angle-double-right"></i>New</a></li>
+        </ul>
+    </li>
+    <li class="treeview" data-url-pat="/category.+|/categories.+">
+        <a href="#">
+            <i class="fa fa-fw fa-folder-open"></i>
+            <span>Categories</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="{% url 'adm:category-list' %}"><i class="fa fa-angle-double-right"></i>List</a></li>
+            <li><a href="{% url 'adm:category-new' %}"><i class="fa fa-angle-double-right"></i>New</a></li>
+        </ul>
+    </li>
+    <li class="treeview" data-url-pat="/entry.+|/entries.+">
+        <a href="#">
+            <i class="glyphicon glyphicon-file"></i>
+            <span>Entries</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="{% url 'adm:entry-list' %}"><i class="fa fa-angle-double-right"></i>List</a></li>
+            <li><a href="{% url 'adm:entry-new' %}"><i class="fa fa-angle-double-right"></i>New</a></li>
+        </ul>
+    </li>
+    <li class="treeview" data-url-pat="/page.+|/pages.+">
+        <a href="#">
+            <i class="glyphicon glyphicon-file"></i>
+            <span>Pages</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="{% url 'adm:page-list' %}"><i class="fa fa-angle-double-right"></i>List</a></li>
+            <li><a href="{% url 'adm:page-new' %}"><i class="fa fa-angle-double-right"></i>New</a></li>
+        </ul>
+    </li>
+    <li class="treeview" data-url-pat="/config.+">
+        <a href="#">
+            <i class="fa fa-gear"></i>
+            <span>Configurations</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="{% url 'adm:config-general' %}"><i class="fa fa-angle-double-right"></i>General</a></li>
+            <li><a href="{% url 'adm:config-write' %}"><i class="fa fa-angle-double-right"></i>Write</a></li>
+            <li><a href="{% url 'adm:config-read' %}"><i class="fa fa-angle-double-right"></i>Read</a></li>
+        </ul>
+    </li>
+</ul>
